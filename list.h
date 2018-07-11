@@ -2,7 +2,6 @@
 #define __LIST_H_INCLUDED__
 
 #include <stdlib.h>
-#include <stdint.h>
 
 typedef struct List
 {

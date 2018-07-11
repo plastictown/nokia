@@ -1,8 +1,16 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <string.h>
 
 #include "list.h"
+#include "tree.h"
+
+void error(const char* text)
+{
+  write(fileno(stderr), text, strlen(text));
+}
 
 void print_min_max( uint32_t value )
 {
@@ -29,10 +37,17 @@ void print_min_max( uint32_t value )
 
 
 
-
 int main()
 {
+  tree_node_t* head = alloc_node();
+  if(head == NULL)
+  {
+    error("can't allocate tree_node_t");
+    return EXIT_FAILURE;
+  }
 
+  free(head);
+  head = NULL;
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -1,13 +1,17 @@
-CXXFLAGS:=-O3 -I.
+CC:=gcc
+CFLAGS:=-Wall -O3 -I.
 
-all: list.o main.o
-	gcc -o app.exe list.o main.o
+all: list.o tree.o main.o 
+	gcc -o app.exe $(LDFLAGS) list.o tree.o main.o
 
 list.o:
-	gcc $(CXXFLAGS) -c list.c
+	$(CC) $(CFLAGS) -c list.c
+
+tree.o:
+	$(CC) $(CFLAGS) -c tree.c
 	
 main.o:
-	gcc $(CXXFLAGS) -c main.c
+	$(CC) $(CFLAGS) -c main.c
 	
 clean:
 	rm -f *.o
