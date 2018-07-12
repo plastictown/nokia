@@ -39,15 +39,35 @@ void print_min_max( uint32_t value )
 
 int main()
 {
-  tree_node_t* head = alloc_node();
-  if(head == NULL)
+  tree_node_t* root = alloc_node();
+  if(root == NULL)
   {
     error("can't allocate tree_node_t");
     return EXIT_FAILURE;
   }
 
-  free(head);
-  head = NULL;
+/*      * root
+         / \
+        *   *
+       /    /\
+      *    *  *
+               \
+                *
+*/
+
+  root->leftChild = alloc_node();
+  root->rightChild = alloc_node();
+  root->leftChild->leftChild = alloc_node();
+  root->rightChild->leftChild = alloc_node();
+  root->rightChild->rightChild = alloc_node();
+  root->rightChild->rightChild->rightChild = alloc_node();
+  tree_clear_node(&(root->rightChild->rightChild));
+
+  int height = tree_height(root);
+  printf("tree height = %d\n", height);
+
+  tree_clear_node(&root);
+  root = NULL;
 
   return EXIT_SUCCESS;
 }
