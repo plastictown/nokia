@@ -1,7 +1,7 @@
 CC:=gcc
 CFLAGS:=-Wall -O3 -I.
 
-all: list.o tree.o main.o 
+all: list.o tree.o list.o main.o 
 	gcc -o app.exe $(LDFLAGS) list.o tree.o main.o
 
 list.o:

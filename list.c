@@ -16,10 +16,10 @@ List_t* list_get_last( List_t* head )
 {
   if( head == NULL )
     return NULL;
-  List_t* cur = head;
-  while( cur->next != NULL )
-    cur = cur->next;
-  return cur;
+  List_t* ptr = head;
+  while( ptr->next != NULL )
+    ptr = ptr->next;
+  return ptr;
 }
 
 List_t* list_add( List_t* head, int value )
@@ -30,10 +30,10 @@ List_t* list_add( List_t* head, int value )
   last->next = ( List_t* )calloc( 1, sizeof( List_t ) );
   if( last->next == NULL )
     return NULL;
-  List_t* cur = last->next;
-  cur->next = NULL;
-  cur->payload = value;
-  return cur;
+  List_t* ptr = last->next;
+  ptr->next = NULL;
+  ptr->payload = value;
+  return ptr;
 }
 
 int list_remove_last( List_t* head )
@@ -41,11 +41,11 @@ int list_remove_last( List_t* head )
   if( head == NULL ) return 0;
   if( head->next == NULL )
     return 0;
-  List_t* cur = head;
-  while( cur->next->next != NULL )
-    cur = cur->next;
-  free( cur->next );
-  cur->next = NULL;
+  List_t* ptr = head;
+  while( ptr->next->next != NULL )
+    ptr = ptr->next;
+  free( ptr->next );
+  ptr->next = NULL;
   return 1;
 }
 
@@ -54,8 +54,8 @@ size_t list_size( List_t* head )
   if( head == NULL )
     return 0u;
   size_t ret = 1;
-  List_t* cur = head;
-  while( ( cur = cur->next ) != NULL )
+  List_t* ptr = head;
+  while( ( ptr = ptr->next ) != NULL )
     ret++;
   return ret;
 }
@@ -74,18 +74,33 @@ void remove_every( List_t* head, size_t n )
 {
   if( head == NULL || n < 2u ) return;
   // only one element in the list
-  List_t* cur = head;
+  List_t* ptr = head;
   size_t ctr  = 1u;
-  while( cur->next != NULL )
+  while( ptr->next != NULL )
     {
-      List_t* prev = cur;
-      cur = cur->next;
+      List_t* prev = ptr;
+      ptr = ptr->next;
       if( ctr % n == 0u )
         {
-          prev->next = cur->next;
-          free( cur );
-          cur = prev;
+          prev->next = ptr->next;
+          free( ptr );
+          ptr = prev;
         }
       ctr++;
     }
+}
+
+const List_t* list_find(const List_t* head, int value)
+{
+  if(head == NULL)
+    return NULL;
+  List_t* ptr = head;
+  do
+  {
+    if(ptr->payload == value)
+      return ptr;
+  }
+  while((ptr = ptr->next) != NULL);
+  
+  return NULL;
 }
