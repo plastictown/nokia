@@ -1,106 +1,121 @@
 #include <stdlib.h>
-#include <stdio.h>
-
+#include <stdint.h>
 #include "list.h"
 
-void list_init( List_t* head )
+List_t* list_add(List_t** phead, uint32_t value)
 {
-  if( head != NULL )
-    {
-      head->next = NULL;
-      head->payload = 0;
-    }
+  if (phead == NULL)
+    return NULL;
+  if (*phead == NULL)
+  {
+    *phead = (List_t*)calloc(1, sizeof(List_t));
+    (*phead)->next = NULL;
+    (*phead)->payload = value;
+    return (*phead);
+  }
+  else
+  {
+    List_t* last = list_get_last(*phead);
+    if (last == NULL)
+      return NULL;
+    last->next = (List_t*)calloc(1, sizeof(List_t));
+    last->next->next = NULL;
+    last->next->payload = value;
+    return last->next;
+  }
+  return NULL;
 }
 
-List_t* list_get_last( List_t* head )
+List_t* list_get_last(List_t* head)
 {
-  if( head == NULL )
+  if (head == NULL)
     return NULL;
   List_t* ptr = head;
-  while( ptr->next != NULL )
+  while (ptr->next != NULL)
     ptr = ptr->next;
   return ptr;
 }
 
-List_t* list_add( List_t* head, int value )
+int list_remove_last(List_t** phead)
 {
-  if( head == NULL )
-    return NULL;
-  List_t* last = list_get_last( head );
-  last->next = ( List_t* )calloc( 1, sizeof( List_t ) );
-  if( last->next == NULL )
-    return NULL;
-  List_t* ptr = last->next;
-  ptr->next = NULL;
-  ptr->payload = value;
-  return ptr;
-}
-
-int list_remove_last( List_t* head )
-{
-  if( head == NULL ) return 0;
-  if( head->next == NULL )
+  if (phead == NULL)
     return 0;
+  List_t* head = *phead;
+  if (head == NULL)
+    return 0;
+  if (head->next == NULL)
+  {
+    free(head);
+    *phead = NULL;
+    return 0;
+  }
   List_t* ptr = head;
-  while( ptr->next->next != NULL )
+  List_t* prev = NULL;
+  while (ptr->next != NULL)
+  {
+    prev = ptr;
     ptr = ptr->next;
-  free( ptr->next );
-  ptr->next = NULL;
+  }
+  free(ptr);
+  prev->next = NULL;
   return 1;
 }
 
-size_t list_size( List_t* head )
+void list_clear(List_t** phead)
 {
-  if( head == NULL )
-    return 0u;
-  size_t ret = 1;
-  List_t* ptr = head;
-  while( ( ptr = ptr->next ) != NULL )
-    ret++;
-  return ret;
-}
-
-void list_clear( List_t* head )
-{
-  if( head == NULL )
+  if (phead == NULL)
     return;
-  while( list_remove_last( head ) );
+  while (list_remove_last(phead));
 }
 
-/**
-  * @param [in] n - should be great than 1
-  */
-void remove_every( List_t* head, size_t n )
+size_t list_size(List_t* head)
 {
-  if( head == NULL || n < 2u ) return;
-  // only one element in the list
+  if (head == NULL)
+    return 0u;
+  size_t sz = 0u;
   List_t* ptr = head;
-  size_t ctr  = 1u;
-  while( ptr->next != NULL )
-    {
-      List_t* prev = ptr;
-      ptr = ptr->next;
-      if( ctr % n == 0u )
-        {
-          prev->next = ptr->next;
-          free( ptr );
-          ptr = prev;
-        }
-      ctr++;
-    }
+  do
+  {
+    sz++;
+  } while ((ptr = ptr->next) != NULL);
+  return sz;
 }
 
-const List_t* list_find(const List_t* head, int value)
+const List_t* list_find( List_t* head, uint32_t value)
 {
-  if(head == NULL)
+  if (head == NULL)
     return NULL;
   List_t* ptr = head;
   do
   {
-    if(ptr->payload == value)
+    if (ptr->payload == value)
       return ptr;
-  }
-  while((ptr = ptr->next) != NULL);
-  
+  } while ((ptr = ptr->next) != NULL);
   return NULL;
+}
+
+void remove_every(List_t* head, size_t n)
+{
+  if (head == NULL)
+    return;
+  if (n < 2u)
+    return;
+  if (head->next == NULL)
+    return;
+  size_t ctr = 1;
+  List_t* ptr = head->next;
+  List_t* prev = head;
+  while (ptr->next != NULL)
+  {
+    ctr++;
+    if (ctr%n == 0u)
+    {
+      prev->next = ptr->next;
+      free(ptr);
+      ptr = prev->next;
+      continue;
+    }
+    prev = ptr;
+    ptr = ptr->next;
+  }
 }
