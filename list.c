@@ -105,6 +105,7 @@ void remove_every(List_t* head, size_t n)
   size_t ctr = 1;
   List_t* ptr = head->next;
   List_t* prev = head;
+
   while (ptr->next != NULL)
   {
     ctr++;
@@ -117,5 +118,12 @@ void remove_every(List_t* head, size_t n)
     }
     prev = ptr;
     ptr = ptr->next;
+  }
+  ctr++;
+  if (ctr%n == 0u)
+  {
+    prev->next = NULL;
+    free(ptr);
+    ptr = NULL;
   }
 }
