@@ -81,7 +81,7 @@ size_t list_size(List_t* head)
   return sz;
 }
 
-const List_t* list_find( List_t* head, uint32_t value)
+const List_t* list_find(const List_t* head, uint32_t value)
 {
   if (head == NULL)
     return NULL;
