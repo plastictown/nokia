@@ -8,6 +8,5 @@ typedef struct TreeNode
 } tree_node_t;
 
 tree_node_t* alloc_node();
-int tree_height( const tree_node_t* root );
 void tree_clear_node( tree_node_t** pnode);
 #endif // __TREE_H_INCLUDED__

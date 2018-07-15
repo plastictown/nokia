@@ -15,7 +15,6 @@ List_t* list_add(List_t** phead, uint32_t value);
 int list_remove_last( List_t** phead );
 size_t list_size( List_t* head );
 void list_clear( List_t** phead );
-void remove_every( List_t* head, size_t n );
 const List_t* list_find(const List_t* head, uint32_t value);
 
 #endif // __LIST_H_INCLUDED__

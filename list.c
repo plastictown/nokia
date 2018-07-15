@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
+
 #include "list.h"
 
 List_t* list_add(List_t** phead, uint32_t value)
@@ -92,38 +93,4 @@ const List_t* list_find(const List_t* head, uint32_t value)
       return ptr;
   } while ((ptr = ptr->next) != NULL);
   return NULL;
-}
-
-void remove_every(List_t* head, size_t n)
-{
-  if (head == NULL)
-    return;
-  if (n < 2u)
-    return;
-  if (head->next == NULL)
-    return;
-  size_t ctr = 1;
-  List_t* ptr = head->next;
-  List_t* prev = head;
-
-  while (ptr->next != NULL)
-  {
-    ctr++;
-    if (ctr%n == 0u)
-    {
-      prev->next = ptr->next;
-      free(ptr);
-      ptr = prev->next;
-      continue;
-    }
-    prev = ptr;
-    ptr = ptr->next;
-  }
-  ctr++;
-  if (ctr%n == 0u)
-  {
-    prev->next = NULL;
-    free(ptr);
-    ptr = NULL;
-  }
 }
