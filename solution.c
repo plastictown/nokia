@@ -3,44 +3,46 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
+#include <limits.h>
 
 #include "list.h"
 #include "tree.h"
 #include "solution.h"
 #include "util.h"
 
-void remove_every(List_t* head, size_t n)
+void remove_every( List_t* head, size_t n )
 {
-  if (head == NULL)
+  if ( head == NULL )
     return;
-  if (n < 2u)
+  if ( n < 2u )
     return;
-  if (head->next == NULL)
+  if ( head->next == NULL )
     return;
   size_t ctr = 1;
   List_t* ptr = head->next;
   List_t* prev = head;
 
-  while (ptr->next != NULL)
-  {
-    ctr++;
-    if (ctr%n == 0u)
+  while ( ptr->next != NULL )
     {
-      prev->next = ptr->next;
-      free(ptr);
-      ptr = prev->next;
-      continue;
+      ctr++;
+      if ( ctr % n == 0u )
+        {
+          prev->next = ptr->next;
+          free( ptr );
+          ptr = prev->next;
+          continue;
+        }
+      prev = ptr;
+      ptr = ptr->next;
     }
-    prev = ptr;
-    ptr = ptr->next;
-  }
   ctr++;
-  if (ctr%n == 0u)
-  {
-    prev->next = NULL;
-    free(ptr);
-    ptr = NULL;
-  }
+  if ( ctr % n == 0u )
+    {
+      prev->next = NULL;
+      free( ptr );
+      ptr = NULL;
+    }
 }
 
 void print_min_max( uint32_t value )
@@ -130,4 +132,32 @@ int tree_height( const tree_node_t* root )
     }
   int max = l > r ? l : r;
   return max + 1;
+}
+
+void get_primes( unsigned long N, unsigned long* buf )
+{
+  if( buf == NULL )
+    return;
+  uint32_t idx = 1u;
+  buf[0] = 2u;
+
+  for( unsigned long n = 3u; n <= ULONG_MAX; n += 2u )
+    {
+      int prime = 1;
+      for( unsigned long m = 3u; m <= ( unsigned long )sqrt( n ); m += 2u )
+        {
+          if( n % m == 0u )
+            {
+              prime = 0;
+              break;
+            }
+        }
+      if( prime != 0 )
+        {
+          buf[idx] = n;
+          idx++;
+          if( idx >= N )
+            break;
+        }
+    }
 }

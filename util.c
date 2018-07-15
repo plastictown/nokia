@@ -2,24 +2,24 @@
 
 #include "util.h"
 
-void print_list(List_t* head)
+void print_list( List_t* head )
 {
-  if(head == NULL)
-  {
-    printf("list is empty\n");
-    return;
-  }
+  if( head == NULL )
+    {
+      printf( "list is empty\n" );
+      return;
+    }
   List_t* ptr = head;
   do
-  {
-    printf(" %d", ptr->payload);
-  }
-  while((ptr = ptr->next) != NULL);
-  printf("\n");
+    {
+      printf( " %d", ptr->payload );
+    }
+  while( ( ptr = ptr->next ) != NULL );
+  printf( "\n" );
 }
 
 // List of str_sz_t structs!!!
-List_t* find_by_key( const List_t* head, unsigned key )
+List_t* find_by_key( List_t* head, unsigned key )
 {
   if( head == NULL )
     return NULL;

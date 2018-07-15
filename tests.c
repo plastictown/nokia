@@ -6,29 +6,29 @@
 #include "solution.h"
 #include "util.h"
 
-void list_test(uint32_t max, uint32_t N)
+void list_test( uint32_t max, uint32_t N )
 {
-  printf("***-list test-***\n");
+  printf( "***-list test-***\n" );
 // creating a sample list
   List_t* l = NULL;
   // filling the list
-  for(uint32_t i = 1u; i <= max; i++)
-    list_add(&l, i);
+  for( uint32_t i = 1u; i <= max; i++ )
+    list_add( &l, i );
 
-  printf("list before removing items:\n");
-  print_list(l);
-  remove_every(l, N);
-  printf("list after removing items:\n");
-  print_list(l);
+  printf( "list before removing items:\n" );
+  print_list( l );
+  remove_every( l, N );
+  printf( "list after removing items:\n" );
+  print_list( l );
 
   // clearing
-  list_clear(&l);
-  printf("***-end of test-***\n\n");
+  list_clear( &l );
+  printf( "***-end of test-***\n\n" );
 }
 
 void tree_height_test()
 {
-  printf("***-tree test-***\n");
+  printf( "***-tree test-***\n" );
 //---create tree---//
   // do not check for memory allocation errors
   tree_node_t* root = alloc_node(); // <-- create your own tree here
@@ -55,20 +55,20 @@ void tree_height_test()
   //---remove tree---//
   tree_clear_node( &root );
   root = NULL;
-  printf("***-end of test-***\n\n");
+  printf( "***-end of test-***\n\n" );
 }
 
-void min_max_test(uint32_t value)
+void min_max_test( uint32_t value )
 {
-  printf("***-min & max test-***\n");
+  printf( "***-min & max test-***\n" );
   //--print min and max values---//
-  print_min_max(value);
-  printf("***-end of test-***\n\n");
+  print_min_max( value );
+  printf( "***-end of test-***\n\n" );
 }
 
 void word_count_test( const char* text )
 {
-  printf("***-word count test-***\n");
+  printf( "***-word count test-***\n" );
 
   List_t* lst = count_str( text ); // <-- input test string here
 
@@ -94,5 +94,19 @@ void word_count_test( const char* text )
       list_clear( &lst );
       lst = NULL;
     }
-  printf("***-end of test-***\n\n");
+  printf( "***-end of test-***\n\n" );
+}
+
+void primes_test( unsigned long N )
+{
+  printf( "***-primes test-***\n" );
+  unsigned long* buf = calloc( N, sizeof( unsigned long ) );
+
+  get_primes( N, buf );
+
+  for( unsigned i = 0u; i < N; i++ )
+    printf( "%u ", ( unsigned )buf[i] );
+  printf( "\n" );
+  free( buf );
+  printf( "***-end of test-***\n\n" );
 }
