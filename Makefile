@@ -1,8 +1,9 @@
 CC:=gcc
 CFLAGS:=-Wall -O3 -I.
+LDFLAGS:=-lm
 
 all: list.o tree.o util.o solution.o tests.o main.o
-	gcc -o app.exe $(LDFLAGS) list.o tree.o util.o solution.o tests.o main.o
+	gcc -o app  list.o tree.o util.o solution.o tests.o main.o $(LDFLAGS)
 
 list.o:
 	$(CC) $(CFLAGS) -c list.c
