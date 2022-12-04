@@ -81,7 +81,7 @@ void word_count_test( const char* text )
   else
     {
       size_t sz = list_size( lst );
-      printf( "items count: %u\n", sz );
+      printf( "items count: %zu\n", sz );
       List_t* ptr = lst;
       do
         {
